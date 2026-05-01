@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para ti ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fdf6ee;
+      --rose: #c4627a;
+      --rose-light: #e8a0b0;
+      --rose-dark: #8b3a4f;
+      --gold: #c9a96e;
+      --gold-light: #e8d5b0;
+      --ink: #2c1a1a;
+      --ink-soft: #5c3d3d;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Pétalos flotantes ── */
+    .petals-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -40px;
+      font-size: 14px;
+      opacity: 0;
+      animation: fallPetal linear infinite;
+    }
+
+    @keyframes fallPetal {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.8); }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(110vh) rotate(360deg) scale(1); }
+    }
+
+    /* ── Fondo textura papel ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(196,98,122,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(201,169,110,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(253,246,238,1) 0%, #f5e9d8 100%);
+      z-index: -1;
+    }
+
+    /* ── Contenedor principal ── */
+    .letter-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      padding: 24px 16px 60px;
+    }
+
+    /* ── Header decorativo ── */
+    .letter-header {
+      text-align: center;
+      padding: 40px 0 20px;
+      position: relative;
+    }
+
+    .header-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ornament-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .heart-icon {
+      font-size: 20px;
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      30% { transform: scale(1.25); }
+      50% { transform: scale(1.1); }
+    }
+
+    .letter-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 52px;
+      color: var(--rose-dark);
+      line-height: 1;
+      letter-spacing: 1px;
+      animation: fadeSlideDown 1.2s ease both;
+    }
+
+    .letter-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      animation: fadeSlideDown 1.4s ease both;
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── La carta / papel ── */
+    .letter-paper {
+      position: relative;
+      background: #fffdf9;
+      border-radius: 2px;
+      padding: 44px 32px 48px;
+      margin-top: 20px;
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.06),
+        0 8px 24px rgba(139,58,79,0.08),
+        0 20px 60px rgba(0,0,0,0.06);
+      animation: fadeIn 1.6s ease both;
+    }
+
+    /* Líneas de papel */
+    .letter-paper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        rgba(196,98,122,0.07) 31px,
+        rgba(196,98,122,0.07) 32px
+      );
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    /* Margen izquierdo */
+    .letter-paper::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 40px; bottom: 0;
+      width: 1px;
+      background: rgba(196,98,122,0.15);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Sello de cera decorativo ── */
+    .wax-seal {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      background: radial-gradient(circle at 40% 35%, var(--rose-light), var(--rose-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(139,58,79,0.35), inset 0 1px 2px rgba(255,255,255,0.2);
+    }
+
+    /* ── Texto de la carta ── */
+
+    /* 
+    ═══════════════════════════════════════════════════════
+    ✏️  INSTRUCCIONES PARA CAMBIAR EL TEXTO:
+    
+    1. SALUDO  → Busca el bloque <p class="letter-salutation">
+                 Cambia "Mi amor," por el nombre de tu novia
+                 Ejemplo: "Mi hermosa Valentina," o "Amor mío,"
+    
+    2. PÁRRAFOS → Hay 3 <p class="letter-paragraph">
+                  Cambia el texto dentro de cada uno
+                  Puedes agregar más o quitar párrafos
+    
+    3. DESPEDIDA → Busca <p class="letter-closing">
+                   Cambia el texto de cierre
+    
+    4. FIRMA → Busca <span class="letter-signature">
+               Pon tu nombre o apodo
+    ═══════════════════════════════════════════════════════
+    -->
+
+    .letter-salutation {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--rose-dark);
+      margin-bottom: 28px;
+      padding-left: 44px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-paragraph {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 2;
+      color: var(--ink-soft);
+      margin-bottom: 24px;
+      padding-left: 44px;
+      position: relative;
+      z-index: 1;
+      text-align: justify;
+    }
+
+    .letter-paragraph em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    .letter-closing {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--ink-soft);
+      margin-top: 32px;
+      padding-left: 44px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-signature {
+      font-family: 'Great Vibes', cursive;
+      font-size: 42px;
+      color: var(--rose-dark);
+      display: block;
+      margin-top: 12px;
+      padding-left: 44px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signature-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding-left: 44px;
+      margin-top: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Decoración esquinas ── */
+    .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      opacity: 0.35;
+    }
+    .corner-tl { top: 12px; left: 12px; border-top: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold); }
+    .corner-tr { top: 12px; right: 12px; border-top: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold); }
+    .corner-bl { bottom: 12px; left: 12px; border-bottom: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold); }
+    .corner-br { bottom: 12px; right: 12px; border-bottom: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold); }
+
+    /* ── Player de música ── */
+    .music-section {
+      margin-top: 32px;
+      animation: fadeIn 2s ease both;
+    }
+
+    .music-label {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .music-player {
+      background: linear-gradient(135deg, #1a0a0a 0%, #2e1010 50%, #1a0a0a 100%);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow:
+        0 4px 20px rgba(0,0,0,0.25),
+        0 1px 0 rgba(255,255,255,0.05) inset;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-player::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(196,98,122,0.15) 0%, transparent 60%);
+    }
+
+    .song-info {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .song-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .song-artist {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: var(--rose-light);
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+
+    /* Barra de progreso */
+    .progress-bar-wrap {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      font-family: monospace;
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 99px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--rose), var(--gold));
+      border-radius: 99px;
+      transition: width 0.1s linear;
+    }
+
+    /* Controles */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-control {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.6);
+      font-size: 20px;
+      padding: 4px;
+      transition: color 0.2s, transform 0.15s;
+      line-height: 1;
+    }
+
+    .btn-control:hover { color: #fff; transform: scale(1.1); }
+
+    .btn-play {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(196,98,122,0.45);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .btn-play:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 24px rgba(196,98,122,0.6);
+    }
+
+    /* Visualizador */
+    .visualizer {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .viz-bar {
+      width: 3px;
+      background: linear-gradient(to top, var(--rose), var(--gold-light));
+      border-radius: 2px;
+      height: 4px;
+      opacity: 0.5;
+      transition: height 0.1s;
+    }
+
+    .viz-bar.active {
+      animation: vizPulse 0.5s ease-in-out infinite alternate;
+      opacity: 1;
+    }
+
+    @keyframes vizPulse {
+      from { height: 4px; }
+      to   { height: 22px; }
+    }
+
+    /* ── Footer ── */
+    .letter-footer {
+      text-align: center;
+      padding: 40px 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-hearts {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: var(--rose-light);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ── Responsive fine-tuning ── */
+    @media (max-width: 360px) {
+      .letter-title { font-size: 42px; }
+      .letter-paper { padding: 40px 20px 44px; }
+      .letter-salutation,
+      .letter-paragraph,
+      .letter-closing,
+      .letter-signature,
+      .signature-date { padding-left: 28px; }
+      .letter-paper::after { left: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pétalos -->
+  <div class="petals-container" id="petals"></div>
+
+  <div class="letter-wrapper">
+
+    <!-- Header -->
+    <div class="letter-header">
+      <div class="header-ornament">
+        <div class="ornament-line"></div>
+        <span class="heart-icon">🌹</span>
+        <div class="ornament-line"></div>
+      </div>
+      <h1 class="letter-title">Para ti</h1>
+      <!-- 💡 Cambia el texto de abajo si quieres otro subtítulo -->
+      <p class="letter-subtitle">con todo mi amor</p>
+    </div>
+
+    <!-- Carta / Papel -->
+    <div class="letter-paper">
+      <div class="wax-seal">♥</div>
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+
+      <!-- ═══════════════════════════════════════════
+           ✏️  AQUÍ EMPIEZA EL TEXTO DE LA CARTA
+           Cambia lo que está dentro de las etiquetas
+           ═══════════════════════════════════════════ -->
+
+      <!-- SALUDO -->
+      <p class="letter-salutation">Mi amor,</p>
+
+      <!-- PÁRRAFO 1 -->
+      <p class="letter-paragraph">
+        Te escribo esta carta porque de verdad quiero que sepas todo lo que siento por ti.
+        Eres la mejor novia del mundo y la primera que me hace sentir <em>realmente amado.</em>
+        Nadie nunca me había hecho sentir así, y por eso no pienso dejarte nunca.
+      </p>
+
+      <!-- PÁRRAFO 2 -->
+      <p class="letter-paragraph">
+        Llevamos 129 días juntos y cada día te quiero más. Me encantan tus ojos,
+        me encantan tus labios, y la verdad es que me tienes bien loco, no te voy a mentir.
+        Pero lo que más me gusta son tus tetas me tienen loco tambien cómo me consientes
+        y el trato tan bonito que siempre me das.
+        Me haces sentir <em>especial y querido</em> de verdad.
+      </p>
+
+      <!-- PÁRRAFO 3 -->
+      <p class="letter-paragraph">
+        Cada vez que me haces una carta cuando cumplimos meses se me hincha el corazón.
+        Esos detalles tuyos me demuestran que me amas de verdad y eso me encanta.
+        Me haces sentir tan amado que a veces solo te digo "ala"
+        porque no sé ni qué decirte de lo feliz que me pones.
+      </p>
+
+      <!-- PÁRRAFO 4 -->
+      <p class="letter-paragraph">
+        Aunque sea a distancia y a veces no pueda hablarte mucho,
+        me encanta esa conexión que tenemos. Me gusta poder jugar contigo
+        y sentir cómo me amas tanto. <em>Eres mía, mi amor. Mía nada más.</em>
+        No te comparo con nadie porque nadie se compara contigo.
+        Tal como eres, yo te amo y te quiero solo para mí.
+      </p>
+
+      <!-- PÁRRAFO 5 -->
+      <p class="letter-paragraph">
+        Quiero ser el amor de tu vida, mami. Quiero estar contigo mucho más tiempo
+        y hacer que esto dure para siempre. No tengas pena de marcarme ni de escribirme
+        cuando me extrañes. Yo también te extraño siempre, aunque no pueda contestarte rápido.
+        Quiero que sepas que <em>pienso en ti todo el tiempo</em>
+        y que eres lo más importante para mí.
+      </p>
+
+      <!-- CIERRE -->
+      <p class="letter-closing">
+        Te amo mucho, mami. Eres mi todo y no pienso soltarte nunca.
+        Gracias por ser la mejor novia que he tenido
+        y por hacerme el hombre más feliz del mundo.
+        <br /><br />
+        
+      <p
+
+      <!-- FECHA: puedes cambiarla o quitarla -->
+      <p class="signature-date" id="carta-fecha"></p>
+
+      <!-- ═══════════════════════════════════════════
+           ✏️  AQUÍ TERMINA EL TEXTO DE LA CARTA
+           ═══════════════════════════════════════════ -->
+    </div>
+
+    <!-- Player de música -->
+    <div class="music-section">
+      <p class="music-label">♪ nuestra canción ♪</p>
+      <div class="music-player">
+        <div class="song-info">
+          <p class="song-title">World Behind My Wall</p>
+          <p class="song-artist">Tokio Hotel</p>
+        </div>
+
+        <!-- Visualizador -->
+        <div class="visualizer" id="visualizer">
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+          <div class="viz-bar"></div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controls">
+          <button class="btn-control" title="Anterior">⏮</button>
+          <button class="btn-play" id="btnPlay" title="Play / Pausa">▶</button>
+          <button class="btn-control" title="Siguiente">⏭</button>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-bar-wrap">
+          <div class="time-row">
+            <span id="timeElapsed">0:00</span>
+            <span>3:48</span>
+          </div>
+          <div class="progress-track" id="progressTrack">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="letter-footer">
+      <p class="footer-hearts">♥ · · · ♥ · · · ♥</p>
+    </div>
+
+  </div>
+
+  <script>
+    /* ── Fecha automática en español ── */
+    const meses = ['enero','febrero','marzo','abril','mayo','junio',
+                   'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const hoy = new Date();
+    document.getElementById('carta-fecha').textContent =
+      `${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
+
+    /* ── Pétalos animados ── */
+    const container = document.getElementById('petals');
+    const emojis = ['🌹','🌸','✿','❀','♡','·'];
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (6 + Math.random() * 8) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.fontSize = (10 + Math.random() * 8) + 'px';
+      container.appendChild(p);
+    }
+
+    /* ── Player simulado ── */
+    const TOTAL = 228; // segundos (3:48)
+    let elapsed = 0;
+    let playing = false;
+    let interval = null;
+
+    const btnPlay = document.getElementById('btnPlay');
+    const fill    = document.getElementById('progressFill');
+    const timeEl  = document.getElementById('timeElapsed');
+    const bars    = document.querySelectorAll('.viz-bar');
+
+    function formatTime(s) {
+      return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2,'0');
+    }
+
+    function updateProgress() {
+      const pct = (elapsed / TOTAL) * 100;
+      fill.style.width = pct + '%';
+      timeEl.textContent = formatTime(elapsed);
+      if (elapsed >= TOTAL) { stopPlayer(); elapsed = 0; }
+    }
+
+    function startPlayer() {
+      playing = true;
+      btnPlay.textContent = '⏸';
+      interval = setInterval(() => { elapsed += 0.25; updateProgress(); }, 250);
+      bars.forEach((b, i) => {
+        b.classList.add('active');
+        b.style.animationDelay = (i * 0.07) + 's';
+        b.style.animationDuration = (0.35 + Math.random() * 0.4) + 's';
+      });
+    }
+
+    function stopPlayer() {
+      playing = false;
+      btnPlay.textContent = '▶';
+      clearInterval(interval);
+      bars.forEach(b => b.classList.remove('active'));
+    }
+
+    btnPlay.addEventListener('click', () => playing ? stopPlayer() : startPlayer());
+
+    /* Click en la barra de progreso */
+    document.getElementById('progressTrack').addEventListener('click', e => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      elapsed = ((e.clientX - rect.left) / rect.width) * TOTAL;
+      updateProgress();
+    });
+  </script>
+</body>
+</html>
